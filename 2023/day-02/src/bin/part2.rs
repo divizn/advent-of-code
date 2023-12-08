@@ -4,25 +4,16 @@ use std::env::args;
 
 #[derive(Debug)]
 struct Game {
-    id: u32,
     blues: u32,
     reds: u32,
     greens: u32,
 }
 
-impl Game {
-    fn is_valid_game(game: &Game) -> bool {
-        return game.blues <= MAX_BLUE && game.greens <= MAX_GREEN && game.reds <= MAX_RED
-    }
-    
+impl Game {   
     fn power_of_cubes(game: &Game) -> u32 {
         return game.blues * game.reds * game.greens
     }
 }
-
-const MAX_BLUE: u32 = 14;
-const MAX_GREEN: u32 = 13;
-const MAX_RED: u32 = 12;
 
 fn main() {
     let filename = args().nth(1).expect("FIle name not specified");
@@ -34,9 +25,7 @@ fn main() {
     .map(|line| {
         
         let mut new_line = line.replace("Game ", "");
-        
-        let id = new_line.split(":").nth(0).unwrap().parse::<u32>().expect("id should be a number");        
-        
+                
         new_line = new_line.replace(new_line.split(" ").nth(0).unwrap(), "").strip_prefix(" ").expect("invalid input").to_string();
 
         let mut blues = 0;
@@ -55,7 +44,7 @@ fn main() {
                 };
             })
         });
-        Game {id, blues, reds, greens}
+        Game {blues, reds, greens}
     }).collect();
 
     let mut sum: u32 = 0;
