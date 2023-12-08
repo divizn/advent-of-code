@@ -12,9 +12,7 @@ fn main() {
         Ok(input) => input,
         Err(error) => panic!("Error: {}", error),
     };
-
-
-
+    
     let output = input
         .lines()
         .map(|line| {
