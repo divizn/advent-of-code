@@ -10,7 +10,7 @@ fn main() {
 
     let input = match file {
         Ok(input) => input,
-        Err(error) => panic!("Error: {}", error),
+        Err(error) => panic!("Error: {error}"),
     };
 
     let output = input
