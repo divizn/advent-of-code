@@ -28,12 +28,11 @@ fn main() {
     let games: Vec<Game> = contents
     .lines()
     .map(|line| {
-        
         let mut new_line = line.replace("Game ", "");
         
         let id = new_line.split(":").nth(0).unwrap().parse::<u32>().expect("id should be a number");        
         
-        new_line = new_line.replace(new_line.split(" ").nth(0).unwrap(), "").strip_prefix(" ").expect("invalid input").to_string();
+        new_line = new_line.replace(new_line.split(" ").nth(0).unwrap(), "").trim().to_string();
 
         let mut blues = 0;
         let mut greens = 0;
@@ -42,12 +41,11 @@ fn main() {
         let _ = new_line.split("; ").for_each(|game| {
             game.split(", ").for_each(|color| {
                 let (amount, color_name) = (color.split(" ").nth(0).unwrap(), color.split(" ").nth(1).unwrap());
-                let _ = match color_name {
-                    "blue" => { if &amount.parse::<u32>().unwrap() > &blues { blues = amount.parse().unwrap() }}
-                    "red" => { if &amount.parse::<u32>().unwrap() > &reds { reds = amount.parse().unwrap() }}
-                    "green" => { if &amount.parse::<u32>().unwrap() > &greens { greens = amount.parse().unwrap() }}
+                match color_name {
+                    "blue" => { blues = blues.max(amount.parse().unwrap()) }
+                    "red" => { reds = reds.max(amount.parse().unwrap()) }
+                    "green" => { greens = greens.max(amount.parse().unwrap()) }
                     _ => panic!("wtf")
-
                 };
             })
         });
