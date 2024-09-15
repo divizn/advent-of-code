@@ -12,7 +12,7 @@ struct Game {
 
 impl Game {
     fn is_valid_game(game: &Game) -> bool {
-        return game.blues <= MAX_BLUE && game.greens <= MAX_GREEN && game.reds <= MAX_RED
+        game.blues <= MAX_BLUE && game.greens <= MAX_GREEN && game.reds <= MAX_RED
     }
 }
 
@@ -30,23 +30,23 @@ fn main() {
     .map(|line| {
         let mut new_line = line.replace("Game ", "");
         
-        let id = new_line.split(":").nth(0).unwrap().parse::<u32>().expect("id should be a number");        
+        let id = new_line.split(':').next().unwrap().parse::<u32>().expect("id should be a number");        
         
-        new_line = new_line.replace(new_line.split(" ").nth(0).unwrap(), "").trim().to_string();
+        new_line = new_line.replace(new_line.split(' ').next().unwrap(), "").trim().to_string();
 
         let mut blues = 0;
         let mut greens = 0;
         let mut reds = 0;
 
-        let _ = new_line.split("; ").for_each(|game| {
+        new_line.split("; ").for_each(|game| {
             game.split(", ").for_each(|color| {
-                let (amount, color_name) = (color.split(" ").nth(0).unwrap(), color.split(" ").nth(1).unwrap());
+                let (amount, color_name) = (color.split(' ').next().unwrap(), color.split(' ').nth(1).unwrap());
                 match color_name {
                     "blue" => { blues = blues.max(amount.parse().unwrap()) }
                     "red" => { reds = reds.max(amount.parse().unwrap()) }
                     "green" => { greens = greens.max(amount.parse().unwrap()) }
                     _ => panic!("wtf")
-                };
+                }
             })
         });
         Game {id, blues, reds, greens}
